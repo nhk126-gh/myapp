@@ -12,4 +12,4 @@ Route::get('/findall', [ProductController::class, 'findall']);
 
 Route::post('/search', [ProductController::class, 'search']);
 
-Route::get('/connect', [ProductController::class, 'connect']);
+Route::get('/process', [ProductController::class, 'process']);

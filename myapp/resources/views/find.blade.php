@@ -1,6 +1,6 @@
 <x-main>
   <x-slot name="title">
-    Myapp
+    {{config('app.name')}}
   </x-slot>
 
   <x-slot name="header">

@@ -34,7 +34,7 @@ class ProductController extends Controller
             foreach ($items as $item){
                 $new_arr = $arr;
                 array_push($new_arr, $item);
-                $next = $item->after;
+                $next = $item->before;
                 $this->dig($next, $new_arr);
             }
         } else {
@@ -72,22 +72,22 @@ class ProductController extends Controller
         return $arr2;
     }
 
-    public function connect(Request $request)
+    public function process(Request $request)
     {
         // 配列初期化
         $this->connect_arr = array();
         $changed_arr = array();
 
         //基準を1点取出す
-        $item = Product::find(1);
+        $item = Product::find(4);
 
         // 基準が見つかれば後工程検索
         // 無ければNotFoundを返す
         if (isset($item)) {
-            $items = $item->after;
+            $items = $item->before;
             $this->dig($items, [$item]);
         }else{
-            return view('find');
+            return view('process');
         }
 
         // 配列をview用に変換
@@ -97,7 +97,6 @@ class ProductController extends Controller
             array_push($changed_arr, $buf);
         }
 
-        dd($changed_arr);
-        // return view('connect', ['items' => $changed_arr]);
+        return view('process', ['items' => $changed_arr]);
     }
 }
