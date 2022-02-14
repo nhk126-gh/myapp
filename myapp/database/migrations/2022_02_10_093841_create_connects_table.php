@@ -16,11 +16,14 @@ class CreateConnectsTable extends Migration
         Schema::create('connects', function (Blueprint $table) {
             $table->id();
             $table->string('comment');
-            $table->string('before');
-            $table->string('after');
+            $table->char('before', 5);
+            $table->char('after', 5);
+            $table->timestamps();
 
-            $table->foreign('before')->references('code')->on('products')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign('after')->references('code')->on('products')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('before')->references('address')->on('products')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('after')->references('address')->on('products')->onUpdate('CASCADE')->onDelete('CASCADE');
+
+            $table->unique(['before', 'after']);
 
         });
     }

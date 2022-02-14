@@ -11,6 +11,6 @@
     <x-footer />
   </x-slot>
 
-  <div class="container">Wellcome</div>
+  <div class="container wellcome">Wellcome</div>
   
 </x-main>

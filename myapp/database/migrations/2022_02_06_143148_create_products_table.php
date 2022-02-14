@@ -15,8 +15,13 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
-            $table->string('name');
+            $table->char('address', 5)->unique();
+            $table->string('supplier_code');
+            $table->string('hinban');
+            $table->string('seban');
+            $table->string('store');
+            $table->bigInteger('quantity');
+            $table->string('box_type');
         });
     }
 

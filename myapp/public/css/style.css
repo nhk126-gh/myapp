@@ -1,3 +1,40 @@
 main > .container {
   padding: 60px 15px 0;
 }
+table {
+  width: 80%!important;
+  text-align: center;
+}
+._sticky {
+  position: sticky;
+  top: 55px;
+}
+._sticky:before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+table a {
+  text-decoration: none;
+  color: #198754;
+}
+table a:hover {
+  color: tomato;
+}
+.rotate {
+  transform:rotate(90deg);
+}
+.wellcome {
+  animation: f-color 10s infinite;
+}
+@keyframes f-color {
+  0% { color: #e74c3c; }
+  20% { color: #f1c40f; }
+  40% { color: #1abc9c; }
+  60% { color: #3498db; }
+  80% { color: #9b59b6; }
+  100% { color: #e74c3c; }
+}

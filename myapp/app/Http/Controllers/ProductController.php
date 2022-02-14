@@ -9,20 +9,60 @@ class ProductController extends Controller
 {
     public $connect_arr;
 
+    //全検索
     public function findall(Request $request)
     {
         $items = Product::all();
-        return view('find', ['items' => $items]);
+        return view('findall', ['items' => $items]);
     }
 
+    //品番検索
     public function search(Request $request)
     {
-        $items = Product::where('code', 'like', '%' . $request->input . '%')->get();
-        return view('find', ['items' => $items]);
+        $items = Product::where('hinban', 'like', '%' . $request->input . '%')->get();
+        return view('search', ['items' => $items]);
+    }
+    
+    //前工程検索
+    public function process(Request $request)
+    {
+        // 配列初期化
+        $this->connect_arr = array();
+        $changed_arr = array();
+
+        //基準を1点取出す
+        $item = Product::find($request->input);
+
+        // 基準が見つかれば前工程検索
+        // 無ければNotFoundを返す
+        if (isset($item)) {
+            $items = $item->before;
+            $this->dig($items, [$item]);
+        }else{
+            return view('process');
+        }
+
+        // 配列をview用に変換
+        array_push($changed_arr, $this->connect_arr[0]);
+        for ($i=1; $i<count($this->connect_arr); $i++){
+            $buf = $this->change_array($this->connect_arr[$i-1], $this->connect_arr[$i]);
+            array_push($changed_arr, $buf);
+        }
+
+        //配列の要素数をそろえる
+        $counts = array_map(function ($item) {
+                    return count($item);
+                }, $changed_arr);
+        $max_count = max($counts);
+        $dist = array_map(function ($item) use($max_count) {
+                    return array_pad($item, $max_count, 'x');
+                }, $changed_arr);
+
+        return view('process', ['items' => $dist]);
     }
 
     /**
-     * 後工程検索
+     * 前工程(子品番)検索
      *
      * @param  Illuminate\Support\Collection  $items
      * @param  array  $arr
@@ -68,35 +108,8 @@ class ProductController extends Controller
                 $arr2[$i] = '-';
             }
         }
-
+        
         return $arr2;
     }
 
-    public function process(Request $request)
-    {
-        // 配列初期化
-        $this->connect_arr = array();
-        $changed_arr = array();
-
-        //基準を1点取出す
-        $item = Product::find(4);
-
-        // 基準が見つかれば後工程検索
-        // 無ければNotFoundを返す
-        if (isset($item)) {
-            $items = $item->before;
-            $this->dig($items, [$item]);
-        }else{
-            return view('process');
-        }
-
-        // 配列をview用に変換
-        array_push($changed_arr, $this->connect_arr[0]);
-        for ($i=1; $i<count($this->connect_arr); $i++){
-            $buf = $this->change_array($this->connect_arr[$i-1], $this->connect_arr[$i]);
-            array_push($changed_arr, $buf);
-        }
-
-        return view('process', ['items' => $changed_arr]);
-    }
 }
