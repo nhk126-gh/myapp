@@ -18,7 +18,6 @@ class ProductFactory extends Factory
     {
         return [
             'address' => str_pad(self::$sequence++, 5, 0, STR_PAD_LEFT),
-            'supplier_code' => $this->faker->randomElement(['00100', '00200', '00300', '00400', '00500']),
             'hinban' => $this->faker->regexify('([A-Z]|[1-9]){5}-([A-Z]|[1-9]){5}-00'),
             'seban' => str_pad($this->faker->numberBetween(0, 5000), 4, 0, STR_PAD_LEFT),
             'store' => $this->faker->regexify('([A-Z])\d{2}-\d{2}-\d'),

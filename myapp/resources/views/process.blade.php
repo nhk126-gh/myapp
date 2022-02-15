@@ -18,7 +18,7 @@
       <h1 class="mt-5">Working process</h1>
       <div class="row">
         <div class="col my-5 d-flex justify-content-center">
-          <table class="table table-bordered">
+          <table class="table table-bordered process-table">
             <thead class="table-dark _sticky container">
               <tr class="row">
                 <th class="col-1">#</th>
@@ -31,9 +31,9 @@
             <tbody class="container">
               @foreach ($items as $row)
                 <tr class="row">
-                  <td class="col-1 d-flex justify-content-center align-items-center">
+                  <th class="col-1 d-flex justify-content-center align-items-center bg-dark text-light border-dark">
                     {{ $loop->index + 1 }}
-                  </td>
+                  </th>
                   @foreach ($row as $item)
                     @if($item == '-')
                       <td class="col d-flex"></td>
@@ -45,10 +45,11 @@
                       <td class="col d-flex"></td>
                     @else
                       <td class="col d-flex flex-column align-items-start">
-                        <span>{{$item->address}}</span>
-                        <span>{{$item->supplier_code}}</span>
-                        <span>{{$item->hinban}}</span>
-                        <span>{{$item->store}}</span>
+                        <span><span class="title">Address: </span><span>{{$item->address}}</span></span>
+                        <span><span class="title">Supplier: </span><span>{{$item->supplier->supplier_name}}</span></span>
+                        <span><span class="title">Hinban: </span><span>{{$item->hinban}}</span></span>
+                        <span><span class="title">Store: </span><span>{{$item->store}}</span></span>
+                        <span><span class="title">Quantity: </span><span>{{$item->quantity}}</span></span>
                       </td>
                     @endif
                   @endforeach

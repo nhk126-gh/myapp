@@ -16,12 +16,14 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->char('address', 5)->unique();
-            $table->string('supplier_code');
+            $table->string('supplier_code')->nullable();
             $table->string('hinban');
             $table->string('seban');
             $table->string('store');
             $table->bigInteger('quantity');
             $table->string('box_type');
+
+            $table->foreign('supplier_code')->references('supplier_code')->on('suppliers')->onUpdate('SET NULL')->onDelete('SET NULL');
         });
     }
 

@@ -19,7 +19,13 @@ class ProductController extends Controller
     //品番検索
     public function search(Request $request)
     {
-        $items = Product::where('hinban', 'like', '%' . $request->input . '%')->get();
+        $items = Product::where('address', 'like', '%' . $request->input . '%')
+                        ->orWhere('supplier_code', 'like', '%' . $request->input . '%')
+                        ->orWhere('hinban', 'like', '%' . $request->input . '%')
+                        ->orWhere('seban', 'like', '%' . $request->input . '%')
+                        ->orWhere('store', 'like', '%' . $request->input . '%')
+                        ->orWhere('box_type', 'like', '%' . $request->input . '%')
+                        ->get();
         return view('search', ['items' => $items]);
     }
     

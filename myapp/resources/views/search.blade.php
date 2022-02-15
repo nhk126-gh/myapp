@@ -15,7 +15,7 @@
     @if ($items->isEmpty())
       <h1>Not Found</h1>
     @else
-      <h1 class="mt-5">Product infomation</h1>
+      <h1 class="mt-5">Product List</h1>
       <div class="row">
         <div class="col my-5 d-flex justify-content-center">
           <table class="table table-bordered">
@@ -38,7 +38,7 @@
                       <a href="javascript:form_address_{{ $item->id }}.submit();">{{ $item->address }}</a>
                     </form>
                   </td>
-                  <td>{{$item->supplier_code}}</td>
+                  <td>{{$item->supplier->supplier_name}}</td>
                   <td>
                     <form method="post" name="form_hinban" id="form_hinban_{{ $item->id }}" action="/search">
                       @csrf

@@ -5,6 +5,12 @@ table {
   width: 80%!important;
   text-align: center;
 }
+tr {
+  border-width: 0 0 1px!important;
+}
+.process-table tbody tr:first-child td:first-of-type {
+  background-color: rgb(132, 214, 155);
+}
 ._sticky {
   position: sticky;
   top: 55px;
@@ -23,6 +29,9 @@ table a {
 }
 table a:hover {
   color: tomato;
+}
+table span .title{
+  color: blue;
 }
 .rotate {
   transform:rotate(90deg);

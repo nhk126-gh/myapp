@@ -10,15 +10,10 @@ class Product extends Model
     use HasFactory;
     public $timestamps = false;
 
-    // public function before_connect()
-    // {
-    //     return $this->hasMany(Connect::class, 'before', 'code');
-    // }
-
-    // public function after_connect()
-    // {
-    //     return $this->hasMany(Connect::class, 'after', 'code');
-    // }
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_code', 'supplier_code');
+    }
 
     public function after()
     {
