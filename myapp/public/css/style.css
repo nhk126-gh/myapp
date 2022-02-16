@@ -11,6 +11,9 @@ tr {
 .process-table tbody tr:first-child td:first-of-type {
   background-color: rgb(132, 214, 155);
 }
+.base {
+  background-color: yellow!important;
+}
 ._sticky {
   position: sticky;
   top: 55px;
