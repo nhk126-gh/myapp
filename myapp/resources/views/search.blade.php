@@ -34,11 +34,15 @@
                   <td>
                     <form method="post" name="form_address" id="form_address_{{ $item->id }}" action="/process">
                       @csrf
-                      <input type="hidden" name="input" value="{{ $item->id }}">
+                      <input type="hidden" name="input" value="{{ $item->address }}">
                       <a href="javascript:form_address_{{ $item->id }}.submit();">{{ $item->address }}</a>
                     </form>
                   </td>
-                  <td>{{$item->supplier->supplier_name}}</td>
+                  @isset($item->supplier->supplier_name)
+                    <td>{{$item->supplier->supplier_name}}</td>
+                  @else
+                    <td></td>
+                  @endisset
                   <td>
                     <form method="post" name="form_hinban" id="form_hinban_{{ $item->id }}" action="/search">
                       @csrf

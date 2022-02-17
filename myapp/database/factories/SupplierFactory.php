@@ -7,7 +7,7 @@ use App\Models\Supplier;
 
 class SupplierFactory extends Factory
 {
-    protected static int $sequence = 1;
+    protected static int $sequence = 0;
     /**
      * Define the model's default state.
      *
@@ -16,7 +16,7 @@ class SupplierFactory extends Factory
     public function definition()
     {
         return [
-            'supplier_code' => str_pad(self::$sequence++, 5, 0, STR_PAD_LEFT),
+            'supplier_code' => str_pad(self::$sequence += 1000, 5, 0, STR_PAD_LEFT),
             'supplier_name' => $this->faker->company(),
         ];
     }

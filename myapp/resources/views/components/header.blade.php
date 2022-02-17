@@ -9,9 +9,6 @@
         <li class="nav-item">
           <a class="nav-link" href="/"><i class="fa-solid fa-house"></i></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/findall"><i class="fa-solid fa-database"></i></a>
-        </li>
       </ul>
       <form class="d-flex" action="/search" method="post">
         @csrf

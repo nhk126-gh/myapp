@@ -46,7 +46,14 @@
                     @else
                       <td class="col d-flex flex-column align-items-start">
                         <span><span class="title">Address: </span><span>{{$item->address}}</span></span>
-                        <span><span class="title">Supplier: </span><span>{{$item->supplier->supplier_name}}</span></span>
+                        <span>
+                          <span class="title">Supplier: </span>
+                          @isset($item->supplier->supplier_name)
+                            <span>{{$item->supplier->supplier_name}}</span>
+                          @else
+                            <span></span>
+                          @endisset
+                        </span>
                         <span><span class="title">Hinban: </span><span>{{$item->hinban}}</span></span>
                         <span><span class="title">Store: </span><span>{{$item->store}}</span></span>
                         <span><span class="title">Quantity: </span><span>{{$item->quantity}}</span></span>

@@ -9,15 +9,8 @@ class ProductController extends Controller
 {
     //dig()にてコピーした配列を入れるための配列
     public $connect_arr;
-    //search_parent()にて親品番のProduct_idを入れるための配列
-    public $parent_arr_id = array();
-
-    //全検索
-    public function findall(Request $request)
-    {
-        $items = Product::all();
-        return view('findall', ['items' => $items]);
-    }
+    //search_parent()にて親品番のProduct_addressを入れるための配列
+    public $parent_adds = array();
 
     //部分検索
     public function search(Request $request)
@@ -36,14 +29,12 @@ class ProductController extends Controller
     public function process(Request $request)
     {
         //基準を1点取出す
-        $item = Product::find($request->input);
-        // 基準が見つかれば次の処理
-        // 無ければNotFoundを返す
+        $item = Product::where('address', '=', $request->input)->first();
+        // 基準が見つから無ければNotFoundを返す
         if (isset($item)) {
             //親品番確認
             $this->search_parent($item);
-
-            if ($this->parent_arr_id[0] == $item->id){
+            if ($this->parent_adds[0] == $item->address){
                 //親品番がなかった場合
                 $result = $this->make_process($item);
                 return view('process', ['items' => $result]);
@@ -52,10 +43,10 @@ class ProductController extends Controller
                 //検索品番のidを渡す
                 $id = $item->id;
                 //重複削除
-                $parent_arr_unique_id = array_unique($this->parent_arr_id);
+                $parent_adds_unique = array_unique($this->parent_adds);
                 $results = array();
-                foreach ($parent_arr_unique_id as $parent_id){
-                    $item = Product::find($parent_id);
+                foreach ($parent_adds_unique as $parent_add){
+                    $item = Product::where('address', '=', $parent_add)->first();
                     $result = $this->make_process($item);
                     array_push($results, $result);
                 }
@@ -113,7 +104,6 @@ class ProductController extends Controller
                 $arr2[$i] = '-';
             }
         }
-        
         return $arr2;
     }
 
@@ -128,17 +118,15 @@ class ProductController extends Controller
     {
         // 配列初期化
         $this->connect_arr = array();
-
         $items = $item->before;
         $this->dig($items, [$item]);
         // 配列をview用に変換
         $changed_arr = array();
         array_push($changed_arr, $this->connect_arr[0]);
-        for ($i=1; $i<count($this->connect_arr); $i++){
+        for ($i=1; $i < count($this->connect_arr); $i++){
             $buf = $this->change_array($this->connect_arr[$i-1], $this->connect_arr[$i]);
             array_push($changed_arr, $buf);
         }
-
         //配列の要素数をそろえる
         $counts = array_map(function ($item) {
                     return count($item);
@@ -147,7 +135,6 @@ class ProductController extends Controller
         $dist = array_map(function ($item) use($max_count) {
                     return array_pad($item, $max_count, 'x');
                 }, $changed_arr);
-        
         return $dist;
     }
 
@@ -162,7 +149,7 @@ class ProductController extends Controller
     {
         $items = $item->after;
         if ($items->isEmpty()){
-            array_push($this->parent_arr_id, $item->id);
+            array_push($this->parent_adds, $item->address);
             return;
         } else {
             foreach ($items as $item) {

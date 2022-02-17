@@ -17,11 +17,11 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->char('address', 5)->unique();
             $table->string('supplier_code')->nullable();
+            $table->string('seban')->nullable();
             $table->string('hinban');
-            $table->string('seban');
-            $table->string('store');
             $table->bigInteger('quantity');
-            $table->string('box_type');
+            $table->string('store')->nullable();
+            $table->string('box_type')->nullable();
 
             $table->foreign('supplier_code')->references('supplier_code')->on('suppliers')->onUpdate('SET NULL')->onDelete('SET NULL');
         });
