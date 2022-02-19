@@ -34,24 +34,17 @@ class ProductController extends Controller
         if (isset($item)) {
             //親品番確認
             $this->search_parent($item);
-            if ($this->parent_adds[0] == $item->address){
-                //親品番がなかった場合
+            //検索品番のidを渡す
+            $id = $item->id;
+            //重複削除
+            $parent_adds_unique = array_unique($this->parent_adds);
+            $results = array();
+            foreach ($parent_adds_unique as $parent_add){
+                $item = Product::where('address', '=', $parent_add)->first();
                 $result = $this->make_process($item);
-                return view('process', ['items' => $result]);
-            } else {
-                //親品番があれば配列をforで回す
-                //検索品番のidを渡す
-                $id = $item->id;
-                //重複削除
-                $parent_adds_unique = array_unique($this->parent_adds);
-                $results = array();
-                foreach ($parent_adds_unique as $parent_add){
-                    $item = Product::where('address', '=', $parent_add)->first();
-                    $result = $this->make_process($item);
-                    array_push($results, $result);
-                }
-                return view('processmany', ['results' => $results, 'id' => $id]);
+                array_push($results, $result);
             }
+            return view('process', ['results' => $results, 'id' => $id]);
         } else {
             return view('process');
         }
